@@ -84,3 +84,8 @@ For the more frequent terraform commands we use `make` to simplify the process.
 * WAF for increased security and endpoint protection and rate limiting
 * Kubernetes manifests, CI/CD pipeline for platform services
 * Queuing / Streaming resources for event driven architecture or simple service decoupling
+
+
+## Architecture
+
+<img src="docs/arch.svg">
