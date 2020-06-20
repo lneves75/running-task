@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+REPO_ROOT=$(git rev-parse --show-toplevel)
+CURRENT_DIR=${PWD/#$REPO_ROOT/""}
+
+IMAGE=hashicorp/terraform
+TAG=0.12.26
+
+# Check if we're running an interactive shell
+TTY=""
+if [ -t 1 ] ; then TTY="-ti"; fi
+
+docker run ${TTY} --rm \
+  -e HOME="/" \
+  -e AWS_SESSION_TOKEN \
+  -e AWS_SECURITY_TOKEN \
+  -e AWS_SECRET_ACCESS_KEY \
+  -e AWS_ACCESS_KEY_ID \
+  -e TF_LOG \
+  -e TF_PLUGIN_CACHE_DIR="/.terraform.d/plugin-cache" \
+  -v ${HOME}/.aws:/.aws \
+  -v ${HOME}/.kube:/.kube \
+  -v ${HOME}/.terraform.d/plugin-cache:/.terraform.d/plugin-cache \
+  -v ${REPO_ROOT}:/infra:cached \
+  -w "/infra${CURRENT_DIR}" \
+  ${IMAGE}:${TAG} \
+  "$@"
+
