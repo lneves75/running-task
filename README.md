@@ -89,3 +89,11 @@ For the more frequent terraform commands we use `make` to simplify the process.
 ## Architecture
 
 <img src="docs/arch.svg">
+
+## How to further scale
+
+* Separate databases into different instances/clusters to spread load
+* Prepare application/services to deal with different read and write endpoints for database in order to leverage read replicas for read only workloads
+* If application is a monolith start by breaking away features that need to scale into smaller services
+* For some non-critical intensive write workloads implement a caching first strategy (write to cache first and then async to database in background)
+* Data sharding on database level could be last resort option since it's a bit more complex
